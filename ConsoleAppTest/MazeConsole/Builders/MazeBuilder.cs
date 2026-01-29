@@ -7,9 +7,9 @@ public class MazeBuilder
     public Maze Build(int width, int height)
     {
         _maze = new Maze
-        { 
-            Width = width, 
-            Height = height 
+        {
+            Width = width,
+            Height = height
         };
         BuildWall();
         BuildGround();
@@ -25,8 +25,7 @@ public class MazeBuilder
             {
                 if ((x + y) % 2 == 0)
                 {
-                    var cell = new Ground(x, y);
-                    _maze.ReplaceCell(cell);
+                    _maze[x, y] = new Ground(x, y);
                 }
             }
         }
@@ -38,8 +37,7 @@ public class MazeBuilder
         {
             for (int x = 0; x < _maze.Width; x++)
             {
-                var cell = new Wall(x, y);
-                _maze.Cells.Add(cell);
+                _maze[x, y] = new Wall(x, y);
             }
         }
     }

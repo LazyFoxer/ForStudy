@@ -10,7 +10,7 @@ public class MazeDrawer
         {
             for (int x = 0; x < maze.Width; x++)
             {
-                var cell = maze.Cells.First(cell => cell.X == x && cell.Y == y);
+                var cell = maze[x, y];
                 Console.Write(cell.Symbol);
             }
             Console.WriteLine();
