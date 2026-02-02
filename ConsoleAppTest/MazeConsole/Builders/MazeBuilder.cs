@@ -3,6 +3,7 @@ using MazeConsole.Models.Cells;
 
 public class MazeBuilder
 {
+    private Random _random = new();
     private Maze _maze;
     public Maze Build(int width, int height)
     {
@@ -13,8 +14,22 @@ public class MazeBuilder
         };
         BuildWall();
         BuildGround();
+        BuildCoin();
 
         return _maze;
+    }
+
+    private void BuildCoin()
+    {
+        var grounds = _maze.Cells.
+            OfType<Ground>().
+            ToList();
+
+        var randomIndex = _random.Next(0, grounds.Count());
+        var randomGround = grounds[randomIndex];
+
+        var coin = new Coin(randomGround.X, randomGround.Y);
+        _maze[coin.X, coin.Y] = coin;
     }
 
     public void BuildGround()
