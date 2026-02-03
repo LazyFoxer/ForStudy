@@ -7,6 +7,8 @@ namespace MazeConsole.Models
         public int Width { get; set; }
         public int Height { get; set; }
         public List<BaseCell> Cells { get; set; } = new List<BaseCell>();
+
+        public Hero hero { get; set; }
         public BaseCell this[int x, int y]
         {
             get

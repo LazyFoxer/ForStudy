@@ -14,7 +14,7 @@ public class MazeBuilder
         };
         BuildWall();
         BuildGround();
-        BuildCoin();
+        //BuildCoin();
 
         return _maze;
     }
@@ -25,8 +25,7 @@ public class MazeBuilder
             OfType<Ground>().
             ToList();
 
-        var randomIndex = _random.Next(0, grounds.Count());
-        var randomGround = grounds[randomIndex];
+        var randomGround = GetRandom(grounds);
 
         var coin = new Coin(randomGround.X, randomGround.Y);
         _maze[coin.X, coin.Y] = coin;
@@ -34,16 +33,39 @@ public class MazeBuilder
 
     public void BuildGround()
     {
-        for (int y = 0; y < _maze.Height; y++)
+        var walls = _maze.Cells;
+
+        var wallReadyToDestroy = new List<BaseCell>();
+        wallReadyToDestroy.Add(GetRandom(walls));
+
+        do
         {
-            for (int x = 0; x < _maze.Width; x++)
-            {
-                if ((x + y) % 2 == 0)
-                {
-                    _maze[x, y] = new Ground(x, y);
-                }
-            }
-        }
+            var miner = GetRandom(wallReadyToDestroy);
+            _maze[miner.X, miner.Y] = new Ground(miner.X, miner.Y);
+            wallReadyToDestroy.Remove(miner);
+
+            var nearWalls = GetNearCells<Wall>(miner);
+            wallReadyToDestroy.AddRange(nearWalls);
+
+            wallReadyToDestroy = wallReadyToDestroy
+                .Where(wall =>
+                    GetNearCells<Ground>(wall).Count == 1)
+                .ToList();
+
+        } while (wallReadyToDestroy.Any());
+    }
+
+    private List<CellType> GetNearCells<CellType>(BaseCell miner)
+        where CellType : BaseCell
+    {
+        return _maze.Cells
+            .OfType<CellType>()
+            .Where(cell =>
+               cell.X == miner.X && cell.Y == miner.Y + 1
+            || cell.X == miner.X && cell.Y == miner.Y - 1
+            || cell.Y == miner.Y && cell.X == miner.X + 1
+            || cell.Y == miner.Y && cell.X == miner.X - 1)
+            .ToList();
     }
 
     public void BuildWall()
@@ -55,5 +77,13 @@ public class MazeBuilder
                 _maze[x, y] = new Wall(x, y);
             }
         }
+    }
+
+    private T GetRandom<T>(List<T> cells)
+    {
+        var randomIndex = _random.Next(0, cells.Count());
+        var randomCell = cells[randomIndex];
+
+        return randomCell;
     }
 }
