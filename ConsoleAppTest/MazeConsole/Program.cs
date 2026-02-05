@@ -1,5 +1,4 @@
-﻿var mazeBuilder = new MazeBuilder();
-var mazeDrawer = new MazeDrawer();
+﻿using MazeConsole;
 
-var maze = mazeBuilder.Build(5,8);
-mazeDrawer.Draw(maze);
+var controller = new HeroConsoleController();
+controller.StartGame();
