@@ -1,5 +1,6 @@
 ﻿using MazeConsole.Models;
 using MazeConsole.Models.Cells;
+using MazeConsole.Models.Cells.Character;
 
 public class MazeBuilder
 {
@@ -14,9 +15,19 @@ public class MazeBuilder
         };
         BuildWall();
         BuildGround();
-        //BuildCoin();
+        BuildCoin();
+
+        BuildHero();
 
         return _maze;
+    }
+
+    private void BuildHero()
+    {
+        var grounds = _maze.Cells.OfType<Ground>().ToList();
+        var randomGround = GetRandom(grounds);
+        var hero = new Hero(randomGround.X, randomGround.Y, _maze);
+        _maze.Hero = hero;
     }
 
     private void BuildCoin()
@@ -27,7 +38,7 @@ public class MazeBuilder
 
         var randomGround = GetRandom(grounds);
 
-        var coin = new Coin(randomGround.X, randomGround.Y);
+        var coin = new Coin(randomGround.X, randomGround.Y, _maze);
         _maze[coin.X, coin.Y] = coin;
     }
 
@@ -41,7 +52,7 @@ public class MazeBuilder
         do
         {
             var miner = GetRandom(wallReadyToDestroy);
-            _maze[miner.X, miner.Y] = new Ground(miner.X, miner.Y);
+            _maze[miner.X, miner.Y] = new Ground(miner.X, miner.Y, _maze);
             wallReadyToDestroy.Remove(miner);
 
             var nearWalls = GetNearCells<Wall>(miner);
@@ -74,7 +85,7 @@ public class MazeBuilder
         {
             for (int x = 0; x < _maze.Width; x++)
             {
-                _maze[x, y] = new Wall(x, y);
+                _maze[x, y] = new Wall(x, y, _maze);
             }
         }
     }

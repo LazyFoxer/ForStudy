@@ -1,19 +1,16 @@
 ﻿namespace MazeConsole.Models.Cells.Character
 {
-    public class Hero : BaseCell
+    public class Hero : BaseCharacter
     {
-        public Hero(int x, int y) : base(x, y)
+        public string Name { get; set; }
+
+        public Hero(int x, int y, Maze maze) : base(x, y, maze)
         {
         }
 
-        public override char Symbol => throw new NotImplementedException();
+        public override char Symbol => '@';
 
-        public override void InteractWithCell()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool TryStep()
+        public override void InteractWithCell(BaseCharacter character)
         {
             throw new NotImplementedException();
         }
