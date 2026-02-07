@@ -1,10 +1,10 @@
-﻿using MazeConsole.Models;
-using MazeConsole.Models.Cells;
-using MazeConsole.Models.Cells.Character;
+﻿using MazeCore.Models.Cells;
+using MazeCore.Models.Cells.Character;
+using MazeCore.Models;
+using MazeCore.Helper;
 
 public class MazeBuilder
 {
-    private Random _random = new();
     private Maze _maze;
     public Maze Build(int width, int height)
     {
@@ -69,14 +69,7 @@ public class MazeBuilder
     private List<CellType> GetNearCells<CellType>(BaseCell miner)
         where CellType : BaseCell
     {
-        return _maze.Cells
-            .OfType<CellType>()
-            .Where(cell =>
-               cell.X == miner.X && cell.Y == miner.Y + 1
-            || cell.X == miner.X && cell.Y == miner.Y - 1
-            || cell.Y == miner.Y && cell.X == miner.X + 1
-            || cell.Y == miner.Y && cell.X == miner.X - 1)
-            .ToList();
+        return MazeHelper.GetNearCells<CellType>(_maze, miner);
     }
 
     public void BuildWall()
@@ -92,9 +85,6 @@ public class MazeBuilder
 
     private T GetRandom<T>(List<T> cells)
     {
-        var randomIndex = _random.Next(0, cells.Count());
-        var randomCell = cells[randomIndex];
-
-        return randomCell;
+        return MazeHelper.GetRandom(_maze, cells);
     }
 }

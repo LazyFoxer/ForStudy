@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MazeCore.Models;
 
-namespace MazeConsole.Models.Cells.Character
+namespace MazeCore.Models.Cells.Character
 {
     public abstract class BaseCharacter : BaseCell
     {

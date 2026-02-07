@@ -1,7 +1,7 @@
-﻿using MazeConsole.Models.Cells;
-using MazeConsole.Models.Cells.Character;
+﻿using MazeCore.Models.Cells;
+using MazeCore.Models.Cells.Character;
 
-namespace MazeConsole.Models
+namespace MazeCore.Models
 {
     public class Maze
     {
@@ -10,6 +10,10 @@ namespace MazeConsole.Models
         public List<BaseCell> Cells { get; set; } = new List<BaseCell>();
 
         public Hero Hero { get; set; }
+
+        public Random Random { get; private set; } = new Random();
+
+        public List<string> EventMessages { get; set; } = new();
         public BaseCell? this[int x, int y]
         {
             get
