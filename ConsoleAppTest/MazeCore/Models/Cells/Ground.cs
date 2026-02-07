@@ -1,6 +1,7 @@
-﻿using MazeConsole.Models.Cells.Character;
+﻿using MazeCore.Models.Cells.Character;
+using MazeCore.Models;
 
-namespace MazeConsole.Models.Cells
+namespace MazeCore.Models.Cells
 {
     public class Ground : BaseCell
     {
@@ -17,7 +18,7 @@ namespace MazeConsole.Models.Cells
 
         public override void InteractWithCell(BaseCharacter character)
         {
-            Console.WriteLine("step-step");
+            AddEventInfo("step-step");
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace MazeConsole.Models.Cells.Character
+﻿using MazeCore.Models;
+
+namespace MazeCore.Models.Cells.Character
 {
     public class Hero : BaseCharacter
     {

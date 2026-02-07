@@ -1,4 +1,4 @@
-﻿using MazeConsole.Models;
+﻿using MazeCore.Models;
 
 public class MazeDrawer
 {
@@ -15,6 +15,14 @@ public class MazeDrawer
                 Console.Write(cell.Symbol);
             }
             Console.WriteLine();
+        }
+
+        var copyOfHistory = maze.EventMessages.ToList();
+        copyOfHistory.Reverse();
+        var lastEvents = copyOfHistory.Take(5);
+        foreach (var eventInfo in lastEvents)
+        {
+            Console.WriteLine(eventInfo);
         }
     }
 }
